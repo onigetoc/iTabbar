@@ -18,7 +18,7 @@ To get started, checkout http://ittabar.com!
 
 Demo
 -----------
-Demo: http://onigetoc.github.com/iTabbar
+Demo: http://www.itabbar.com/itabbar/demo.html
 
 Quick start
 -----------
