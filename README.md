@@ -14,6 +14,9 @@ iTabbar is a free tabbar work with Zepto/jQuery plugin for mobile web applicatio
 To get started, checkout http://ittabar.com!
 
 
+Demo
+-----------
+Demo: http://onigetoc.github.com/iTabbar
 
 Quick start
 -----------
