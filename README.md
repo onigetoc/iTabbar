@@ -1,6 +1,8 @@
 [iTabbar](http://itabbar.com)
 =================
 
+Add a fixed tab bar to your mobile web app like iPhone native App - Using with jQtouch, Zepto, iScroll
+
 iTabbar is a css3 html5 tab bar navigation emulation for iPhone, iPad and Android device.
 
 iTabbar - Mobile web app iPhone, iPod touch, Android and other mobile devices. Mobile applications emulation, Mobile web app made easy with iTabbar.
