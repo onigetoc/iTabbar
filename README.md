@@ -18,7 +18,7 @@ To get started, checkout http://ittabar.com!
 
 Demo
 -----------
-Demo: http://www.itabbar.com/itabbar/demo.html
+Demo: http://www.itabbar.com/itabbar/demo.html (on desktop test on Chrome or Safari)
 
 Quick start
 -----------
