@@ -1,0 +1,141 @@
+div#jqt #about {
+	padding: 50px 0px 40px;
+	text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+	 color: #999;
+	font-size: 13px;
+	text-align: center;
+ 	background: #161618;
+}
+div#jqt #about p {
+	margin-bottom: 8px;
+}
+div#jqt #about a {
+	color: #fff;
+	font-weight: bold;
+	text-decoration: none;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  	-webkit-user-select:none;
+    -webkit-text-size-adjust:none;
+}
+#page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#category li, #allpost li, #postcat li{
+  margin: 0;
+  padding: 0;
+  height: auto;
+}
+
+#allpost img, #postcat img{
+	float: left;
+	height: 60px;
+	width: 80px;
+	margin-right: 5px;
+	border: 1px solid #999999;
+}
+
+#single img {
+	max-width:100%;
+	height: auto   !important;
+	/* padding: 3px; */
+	border: 1px solid #cccccc;
+	background-color: #FFFFFF;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	border: 1px solid #999999;
+}
+
+#previous {
+	float: left;
+	width: 50%;
+	text-align: left;
+	font-size:14px !important;
+	font-weight:bold;
+}
+#next {
+	float: right;
+	width: 50%;
+	text-align: right;
+	font-size:14px !important;
+	font-weight:bold;
+}
+.nxtarrow {;
+	font-family:Futura,"Futura Condensed",Helvetica,Arial,sans-serif;
+	font-weight:bold;
+}
+
+.info_post {
+	font-size: 15px !important;
+	color:#585858;
+}
+
+/* Image loading gif */
+#loading {
+	display:none;
+	margin: 0 auto;
+	position: absolute;
+	text-align: center;
+	top: 38%;
+	height: 80px;
+	width: 80px;
+	z-index: 999;
+}
+
+#loading img{
+    margin-top: 24px;
+    margin-right: auto;
+	text-align:center;
+	border: 0 !important;
+	height: 32px;
+	width: 32px;	
+	/**background-color: transparent !important;**/
+}
+
+audio {
+	width: 100%;
+	margin-top: 6px;
+	margin-bottom: 6px;
+} 
+
+/* Iframe and Youtube video wrapper - wrap youtube iframe video with a div class */
+.videoWrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+}
+.videoWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+} 
+
+#wrapper {
+	position:absolute; z-index:1;
+	top:44px; 
+	bottom:47px; 
+	left:0;
+	width:100%;
+	overflow:auto;
+}
+
+#scroller {
+	position:absolute; z-index:1;
+/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	width:100%;
+	padding:0;
+}
+
+#myFrame {
+	position:absolute;
+	top:0; left:0;
+}

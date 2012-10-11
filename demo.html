@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      <meta name="viewport" content="width=device-width,user-scalable=no" />
+      <link rel="apple-touch-icon" href="http://www.itabbar.com/itabbar/img/logo72X72_flat.png" />
+      <link rel="apple-touch-icon-precomposed" media="screen and (min-resolution: 326dpi)" href="http://www.itabbar.com/itabbar/img/logo72X72_flat.png" />
+      <link rel="apple-touch-icon-precomposed" href="http://www.itabbar.com/itabbar/img/logo72X72_flat.png" />
+      <title> iTabbar Demo</title>
+      <style type="text/css">
+      </style>
+      <!--<link rel="stylesheet" href="http://scripts.toolurl.com/mobile/1-tabbbar/themes/css/jqtouch.css"/> -->
+      <link rel="stylesheet" href="src/apple.css" />
+      <link rel="stylesheet" href="src/itabbar.css" />
+      <!--CSS order are important -->
+      <link rel="stylesheet" href="src/style.css" />
+      <script type="text/javascript" src="src/iscroll.js"></script>
+      <script type="text/javascript" src="src/zepto.min.js"></script>
+      <script type="text/javascript" src="src/jqtouch.min.js"></script>
+      <script type="text/javascript" src="src/jqt.autotitles.min.js"></script>
+      <script type="text/javascript" src="src/yql.js"></script>
+      <script type="text/javascript" src="src/twitter.js"></script>
+      <link rel="stylesheet" href="src/add2home.css" />
+      <script type="text/javascript" src="src/add2home.js" charset="utf-8"></script>
+      <script type="text/javascript">
+         var myScroll;
+         function loaded() {
+         	setTimeout(function () {
+         		myScroll = new iScroll('wrapper');
+         	}, 100);
+         }
+         //window.addEventListener('load', loaded, false);
+         
+         /* Use this for high compatibility (iDevice + Android)*/
+         document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+         document.addEventListener('DOMContentLoaded', setTimeout(function () { loaded(); }, 200), false);
+      </script>
+      <script type="text/javascript" charset="utf-8">
+         if((navigator.userAgent.match(/iPhone/i))||(navigator.userAgent.match(/iPod/i))||(navigator.userAgent.match(/iPad/i))){
+         	var jQT = new $.jQTouch({
+            		//cacheGetRequests: false,
+             	icon: 'img/iTab-glossy.png',
+             	icon4: 'img/iTab-glossy.png',
+             	addGlossToIcon: false,
+             	startupScreen: 'img/istartup.png',
+             	themeSelectionSelector: '#jqt #themes ul',
+         		useFastTouch: true,
+             	statusBar: 'default',
+             	preloadImages: [
+         		'img/loading.gif',
+         		'img/iTab-glossy.png',
+         		'img/pinstripes2.gif',
+         		'img/UIBack.png',
+         		'img/UIBackPressed.png',
+         		]
+         	});
+         } else {
+         	var jQT = new $.jQTouch({
+             	//statusBar: 'black-translucent',
+             	themeSelectionSelector: '#jqt #themes ul',
+         		useFastTouch: false,
+             	statusBar: 'default',
+             	preloadImages: [
+         		'img/loading.gif',
+         		'img/iTab-glossy.png',
+         		'img/pinstripes2.gif',
+         		'img/UIBack.png',
+         		'img/UIBackPressed.png',
+         		]
+         	});
+         	//alert('is not iPhone');
+         }
+         
+         var mydata = '';
+         
+         // Main functions:
+         $(function() {
+         
+             $('#single').bind('pageAnimationEnd', function(e, info) {
+         
+         if (info.direction == 'in'){
+         //$("#postcat").empty();
+             if (myScroll) {
+                 myScroll.destroy();
+                 myScroll = null;
+                 //alert('destroy iscroll')
+             }
+         
+             if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                 setTimeout(function() {
+                     myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                 }, 0);
+             }
+         }
+         
+         }); //pageAnimationEnd
+         
+         // RSS List
+         $('#categories').bind('pageAnimationEnd', function(e, info) {
+         
+         if (info.direction == 'in'){
+         var mydata = '';
+         $("#postcat").empty();
+         $("#rssfeed .toolbar H1").empty(); // Empty H1 header for autotitle
+             if (myScroll) {
+                 myScroll.destroy();
+                 myScroll = null;
+                 //alert('destroy iscroll')
+             }
+         
+             if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                 setTimeout(function() {
+                     myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                     //alert('New iscroll');
+                 }, 0);
+             }
+         }
+         
+         }); //pageAnimationEnd
+         
+         $('#home').bind('pageAnimationEnd', function(e, info) {
+             if (myScroll) {
+                 myScroll.destroy();
+                 myScroll = null;
+                 //alert('destroy iscroll')
+             }
+         
+             if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                 setTimeout(function() {
+                     myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                     //alert('New iscroll');
+                 }, 0);
+             }
+         	//alert('New iscroll');
+         }); //pageAnimationEnd
+         
+         
+         $('#twitterlist').bind('pageAnimationEnd', function(e, info) {
+         if (info.direction == 'in'){
+         var mydata = '';
+         $("#tweetappend").empty();
+         $("#tweet .toolbar H1").empty(); // Empty H1 header for autotitle
+             if (myScroll) {
+                 myScroll.destroy();
+                 myScroll = null;
+                 //alert('destroy iscroll')
+             }
+         
+             if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                 setTimeout(function() {
+                     myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                     //alert('New iscroll');
+                 }, 0);
+             }
+         
+         }
+         }); //pageAnimationEnd
+         
+         //#flickrlist
+         $('#flickrlist').bind('pageAnimationEnd', function(e, info) {
+         if (info.direction == 'in'){
+         var mydata = '';
+         $("#flickrappend").empty();
+         $("#flickr .toolbar H1").empty(); // Empty H1 header for autotitle
+             if (myScroll) {
+                 myScroll.destroy();
+                 myScroll = null;
+                 //alert('destroy iscroll')
+             }
+         
+             if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                 setTimeout(function() {
+                     myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                 }, 0);
+             }
+         }
+         
+         }); //pageAnimationEnd
+         
+         $('#youtubelist').bind('pageAnimationEnd', function(e, info) {
+         if (info.direction == 'in'){
+         var mydata = '';
+         $("#youtubeappend").empty();
+         $("#youtube .toolbar H1").empty(); // Empty H1 header for autotitle
+             if (myScroll) {
+                 myScroll.destroy();
+                 myScroll = null;
+                 //alert('destroy iscroll')
+             }
+         
+             if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                 setTimeout(function() {
+                     myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                     //alert('New iscroll');
+                 }, 0);
+             }
+         }
+         }); //pageAnimationEnd
+         
+         // RSS Feed
+         $('#rssfeed').bind('pageAnimationEnd', function(e, info) {
+         
+         if (info.direction == 'in'){
+         
+         $("#single .toolbar H1").empty(); // Empty H1 header for autotitle
+         
+         if (myScroll) {
+             myScroll.destroy();
+             myScroll = null;
+         }
+         
+         if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+             setTimeout(function() {
+              myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+              //alert('New iscroll'+ e.target.id);
+              }, 0);
+            }
+         }
+         
+         	if ((info.direction == 'in') && ($('ul#postcat').is(':empty'))) { //if empty load ajax
+                 //$("#postcat").empty();
+         		$("#singleappend").empty();
+         
+         			showLoading();
+         
+         				$.YQL("select * from feed where url='"+mydata+"' limit 10", function (data) {
+         
+         							if (myScroll) {
+                                     myScroll.destroy();
+                                     myScroll = null;
+         							//alert('destroy iscroll')
+                                 }
+         
+                                 if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                                     setTimeout(function() {
+                                         myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                                         //alert('New iscroll');
+                                     }, 0);
+                                 }
+         
+                         	$.each(data.query.results.item, function (i) {
+         
+         						var rss_feed = '<li onclick="goto_item('+i+')"id="'+i+'" style="height:88px; overflow:hidden; class="blog-title arrow"><a id="'+i+'" href="#single">';
+         						rss_feed += '<h1>'+this.title+'</h1>';
+         						rss_feed += '<p>' +  strip_tags(this.description, '<p>,<img>,<br>,<a>')+ '</p></a></li>';
+         
+                 				$('#postcat').append(rss_feed);
+         
+         
+                         }); //each
+         
+         				hideLoading();
+         
+                     }); //YQL
+         
+             } //direction in end
+         
+         }); //pageAnimationEnd
+         
+         
+         // Tweet
+         $('#tweet').bind('pageAnimationEnd', function(e, info) {
+         
+             if (info.direction == 'in') {
+         
+         		showLoading();
+         
+                 $.getJSON('http://twitter.com/statuses/user_timeline/' + mydata + '.json?count=10&callback=?', function(data) {
+         
+         		    if (myScroll) {
+                     myScroll.destroy();
+                     myScroll = null;
+                     //alert('destroy iscroll')
+                 }
+         
+                 if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                     setTimeout(function() {
+                         myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                         //alert('New iscroll');
+                     }, 0);
+                 }
+         
+                     content = '<ul class="rounded">';
+         
+                     $.each(data, function(i) {
+                         var tweet = ify.clean(this['text']);
+                         var d = new Date(this['created_at']);
+                         var date_show = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+                         content += '<li><img src="' + this.user.profile_image_url + '" style="float:left;" width="48" height="48"/><p>' + tweet + '</p> (<date>' + date_show + '</date>)</li>';
+                     }); //each
+                     content += '</ul>';
+                     $('#tweetappend').html(content);
+         
+         		//alert ('data empty');
+                 hideLoading();
+         
+                 }); // getjson
+         
+             } //direction in end
+         }); //pageAnimationEnd
+         
+         // flickr
+         $('#flickr').bind('pageAnimationEnd', function(e, info) {
+         
+             if (info.direction == 'in') {
+         
+                 showLoading();
+         
+                 $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?id=' + mydata + '&lang=en-us&format=json&jsoncallback=?', function(data) {
+         
+                     if (myScroll) {
+                         myScroll.destroy();
+                         myScroll = null;
+                         //alert('destroy iscroll')
+                     }
+         
+                     if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                         setTimeout(function() {
+                             myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                             //alert('New iscroll');
+                         }, 0);
+                     }
+         
+                     content = '<ul class="edgecontent">';
+         
+                     $.each(data.items, function(i) {
+         
+                         content += '<li><h1>' + this.title + '</h1>';
+                         content += '<p>' + this.description + '</p>';
+                         content += '</li>';
+                     });//each
+                     content += '</ul>';
+                     $('#flickrappend').append(content);
+         
+                 hideLoading();
+         
+             }); // getjson
+         } //direction in end
+         }); //pageAnimationEnd
+         
+         
+         // Youtube
+         $('#youtube').bind('pageAnimationEnd', function(e, info) {
+         
+             if (info.direction == 'in') {
+         
+         		showLoading();
+         
+         		$.getJSON('http://gdata.youtube.com/feeds/api/videos?q=' + mydata + '&alt=json-in-script&callback=?&max-results=1&start-index=1', function(data) {
+         
+         		    if (myScroll) {
+                     myScroll.destroy();
+                     myScroll = null;
+                     //alert('destroy iscroll')
+                 }
+         
+                 if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                     setTimeout(function() {
+                         myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                         //alert('New iscroll');
+                     }, 0);
+                 }
+         
+                     content = '<ul class="edgecontent">';
+         
+                     $.each(data.feed.entry, function(i, item) {
+         
+         			var title = item['title']['$t'];
+         			var video = item['id']['$t'];
+         
+         			video = video.replace('http://gdata.youtube.com/feeds/api/videos/', 'http://www.youtube.com/watch?v='); //replacement of link
+                     videoID = video.replace('http://www.youtube.com/watch?v=', ''); // removing link and getting the video ID
+                      content += '<li><h1><a href="' + video + '"> ' + title + '</a></h1><br/><div class="videoWrapper"><iframe width="560" height="315" src="http://www.youtube.com/embed/' + videoID + '" frameborder="0" allowfullscreen></iframe></div></li>';
+                     }); //each
+                     content += '</ul>';
+                     $('#youtubeappend').html(content);
+         
+                 hideLoading();
+         
+                 }); // getjson
+         
+             } //direction in end
+         }); //pageAnimationEnd
+         
+         
+         }); //end all function()
+      </script>
+      <style type="text/css">
+      </style>
+   </head>
+   <body>
+      <div id="page">
+         <div id="jqt">
+            <!-- #home-->
+            <div id="home" class="current">
+               <div class="toolbar">
+                  <h1>iTabbar</h1>
+                  <a class="button slideup" id="infoButton" href="#about">About</a>                
+               </div>
+               <div id="wrapper">
+                  <div class="scroller">
+                     <ul class="rounded">
+                        <li class="arrow"><a href="#categories">RSS Feed with YQL<small class="counter">5</small></a> </li>
+                        <li class="arrow"><a href="#twitterlist">Twitter Users list<small class="counter">7</small></a></li>
+                        <li class="arrow"><a href="#flickrlist">Flickr Photos<small class="counter">10</small></a></li>
+                        <li class="arrow"><a href="#youtubelist">Youtube Videos<small class="counter">4</small></a></li>
+                     </ul>
+                     <h2>External Links</h2>
+                     <ul class="rounded">
+                        <li class="forward"><a target="_blank" href="http://www.itabbar.com/">Homepage</a></li>
+                        <li class="forward"><a target="_blank" href="http://www.twitter.com/itabbar">Twitter</a></li>
+                        <li class="forward"><a target="_blank" href="http://www.box.com/s/3gfhlold7ojbu3ll399s">Download</a></li>
+                     </ul>
+                     <ul class="individual">
+                        <li><a href="mailto:infos@itabbar.com">email</a></li>
+                        <li><a target="_blank" href="#">Donate</a></li>
+                     </ul>
+                     <div class="info">
+                        <p>Add this page to your home screen to view the custom icon, startup screen, and full screen mode.</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- End #home -->
+            <!-- #single -->
+            <div id="single" class="">
+               <div class="toolbar">
+                  <h1>item section</h1>
+                  <a class="back" href="#">Back</a>        
+               </div>
+               <div id="wrapper">
+                  <div id="scroller">
+                     <ul class="rounded_content">
+                        <li id="singleappend">full item here</li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <!-- End #single -->
+            <!-- #Sections -->
+            <div id="categories">
+               <div class="toolbar">
+                  <h1>RSS FEED</h1>
+               </div>
+               <div id="wrapper">
+                  <div id="scroller">
+                     <ul class="edgetoedge">
+                        <li class="list arrow"><a onClick="send('http://itabbar.com/feed')" id="" href="#rssfeed" class="">itabbar.com</a></li>
+                        <li class="list arrow"><a onClick="send('http://feeds2.feedburner.com/thenextweb')" id="" href="#rssfeed" class="">Thenextweb</a></li>
+                        <li class="list arrow"><a onClick="send('http://feeds.feedburner.com/TechCrunch')" id="" href="#rssfeed" class="">Techcrunch</a></li>
+                        <li class="list arrow"><a onClick="send('vstinstrument.com/feed')" id="" href="#rssfeed" class="">VSTinstrument.com</a></li>
+                        <li class="list arrow"><a onClick="send('http://blog.jqtouch.com/rss')" id="" href="#rssfeed" class="">jQtouch</a></li>
+                        <li class="list arrow"><a onClick="send('appsmobiledev.com/feed')" id="" href="#rssfeed" class="">Appsmobiledev</a></li>
+                        <li class="list arrow"><a onClick="send('www.templateswise.com/rss.php?list=latest')" id="" href="#rssfeed" class="">Templateswise</a></li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <!-- End #Sections -->
+            <!-- #twitterlist -->
+            <div id="twitterlist">
+               <div class="toolbar">
+                  <h1>Twitter users list</h1>
+               </div>
+               <div id="wrapper">
+                  <div id="scroller">
+                     <ul class="edgetoedge">
+                        <li class="list arrow"><a onClick="send('wpapptouch')" id="" href="#tweet" class="">@wpapptouch</a></li>
+                        <li class="list arrow"><a onClick="send('itabbar')" id="" href="#tweet" class="">@iTabbar</a></li>
+                        <li class="list arrow"><a onClick="send('jqtouch')" id="" href="#tweet" class="">@jQtouch</a></li>
+                        <li class="list arrow"><a onClick="send('iScroll')" id="" href="#tweet" class="">@iScroll</a></li>
+                        <li class="list arrow"><a onClick="send('techcrunch')" id="" href="#tweet" class="">@Techcrunch</a></li>
+                        <li class="list arrow"><a onClick="send('appsmobiledev')" id="" href="#tweet" class="">@appsmobiledev</a></li>
+                        <li class="list arrow"><a onClick="send('ginocote')" id="" href="#tweet" class="">@Gino</a></li>
+                        <li class="list arrow"><a onClick="send('pascalcarmoni')" id="" href="#tweet" class="">@pascalcarmoni</a></li>
+                        <li class="list arrow"><a onClick="send('templateswise')" id="" href="#tweet" class="">@templateswise</a></li>
+                        <li class="list arrow"><a onClick="send('FousduRoi')" id="" href="#tweet" class="">Les Fous du Roi</a></li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <!-- End #twitterlist -->
+            <!-- #flickrlist -->
+            <div id="flickrlist">
+               <div class="toolbar">
+                  <h1>Flickr users list</h1>
+               </div>
+               <div id="wrapper">
+                  <div id="scroller">
+                     <ul class="edgetoedge">
+                        <li class="list arrow"><a onClick="send('52522100@N07')" id="" href="#flickr" class="">Techcrunch</a></li>
+                        <li class="list arrow"><a onClick="send('11629624@N02')" id="" href="#flickr" class="">ginocote</a></li>
+                        <li class="list arrow"><a onClick="send('57057611@N02')" id="" href="#flickr" class="">ric6000</a></li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <!-- End #flickrlist -->
+            <!-- #flickrlist -->
+            <div id="youtubelist">
+               <div class="toolbar">
+                  <h1>Youtube Videos</h1>
+               </div>
+               <div id="wrapper">
+                  <div id="scroller">
+                     <ul class="edgetoedge">
+                        <li class="list arrow"><a onClick="send('jqtouch')" id="" href="#youtube" class="">jQtouch</a></li>
+                        <li class="list arrow"><a onClick="send('iscroll 4')" id="" href="#youtube" class="">iScroll</a></li>
+                        <li class="list arrow"><a onClick="send('Techcrunch')" id="" href="#youtube" class="">Techcrunch</a></li>
+                        <li class="list arrow"><a onClick="send('adventus')" id="" href="#youtube" class="">Adventus VST</a></li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <!-- End #flickrlist -->
+            <!-- #rssfeed -->
+            <div id="rssfeed">
+               <div class="toolbar">
+                  <h1>Techcrunch RSS</h1>
+                  <a class="back" href="#">Back</a>
+               </div>
+               <div id="wrapper">
+                  <div id="scroller">
+                     <ul class="edgecontent" id="postcat"></ul>
+                  </div>
+               </div>
+            </div>
+            <!-- End #rssfeed -->
+            <!-- #tweet -->
+            <div id="tweet">
+               <div class="toolbar">
+                  <h1>Techcrunch</h1>
+                  <a class="back" href="#">Back</a>
+               </div>
+               <div id="wrapper">
+                  <div id="scroller">
+                     <div id="tweetappend"></div>
+                  </div>
+               </div>
+            </div>
+            <!-- End #tweet -->
+            <!-- #flickr -->
+            <div id="flickr">
+               <div class="toolbar">
+                  <h1>Flickr Photos</h1>
+                  <a class="back" href="#">Back</a>
+               </div>
+               <div id="wrapper">
+                  <div id="scroller">
+                     <div id="flickrappend"></div>
+                  </div>
+               </div>
+            </div>
+            <!-- End #flickr -->
+            <!-- #flickr -->
+            <div id="youtube">
+               <div class="toolbar">
+                  <h1>Youtube videos</h1>
+                  <a class="back" href="#">Back</a>
+               </div>
+               <div id="wrapper">
+                  <div id="scroller">
+                     <div id="youtubeappend"></div>
+                  </div>
+               </div>
+            </div>
+            <!-- End #flickr -->
+            <!-- #pages list -->
+            <div id="pageslist">
+               <div class="toolbar">
+                  <h1>Pages</h1>
+               </div>
+               <div id="wrapper-old">
+                  <div id="scroller">
+                     <ul class="edgetoedge" id="pagesappend"></ul>
+                  </div>
+               </div>
+            </div>
+            <!-- End #pages list -->
+            <!-- #search -->
+            <form id="search" class="form">
+               <div class="toolbar">
+                  <h1>Search</h1>
+                  <a class="cancel" href="#">Cancel</a>        
+               </div>
+               <div class="scroll">
+                  <ul class="rounded">
+                     <li><input type="search" id="searchid" name="s" value="" placeholder="Search" /></li>
+                  </ul>
+                  <a style="margin-top: 10px; margin-bottom: 10px; color:rgba(0,0,0,.9)" href="#rssfeed" id="submit" class="whiteButton">Submit</a>                
+               </div>
+            </form>
+            <!-- End #search -->
+            <!-- #search ori-->
+            <form id="search1" action="ajax_get.php" method="GET" class="form">
+               <div class="toolbar">
+                  <h1>Search</h1>
+                  <a class="cancel" href="#">Cancel</a>        
+               </div>
+               <div class="scroll">
+                  <ul class="rounded">
+                     <li><input type="text" name="s" value="" placeholder="Search" /></li>
+                  </ul>
+                  <a style="margin-top: 10px; margin-bottom: 10px; color:rgba(0,0,0,.9)" href="#" class="submit whiteButton">Submit</a>                
+               </div>
+            </form>
+            <!-- End #search ori-->
+            <!-- #about -->
+            <div id="about" class="selectable">
+               <p><img src="http://www.itabbar.com/wp-content/themes/boldy/itabbar/img/iTab-glossy.png" /></p>
+               <p><strong>iTabbar</strong><br />Version 0.1 beta<br />
+                  <a href="http://www.itabbar.com">By Gino Côté</a>
+               </p>
+               <p><em>Create powerful mobile apps with<br /> just iTabbar, HTML, CSS, and jQuery.</em></p>
+               <p>
+                  <a target="_blank" href="http://twitter.com/itabbar">@iTabbar on Twitter</a>		
+               </p>
+               <p><br /><br /><a href="#" class="grayButton goback">Close</a></p>
+            </div>
+            <!-- End #about -->
+         </div>
+         <!-- End #jqt -->
+         <div id="loading">
+            <p><img src="img/loading.gif" /></p>
+         </div>
+         <nav id="tabbar">
+            <ul>
+               <!-- Action & navigation -->
+               <li>
+                  <a href="#home" class="current flip">
+                     <strong>Home</strong>
+                     <div class="home"></div>
+                  </a>
+               </li>
+               <li>
+                  <a href="#categories" class="flip">
+                     <strong>RSS Feed</strong>
+                     <div class="rss"></div>
+                  </a>
+               </li>
+               <li>
+                  <a href="#twitterlist" class="flip">
+                     <strong>Twitter</strong>
+                     <div class="twitter"></div>
+                  </a>
+               </li>
+               <li>
+                  <a href="#flickrlist" class="flip">
+                     <small class="badge right">10</small><strong>Flickr</strong>
+                     <div class="flickr"></div>
+                  </a>
+               </li>
+               <li>
+                  <a href="#search" class="flip">
+                     <strong>Search</strong>
+                     <div class="search2"></div>
+                  </a>
+               </li>
+            </ul>
+         </nav>
+      </div>
+      <!-- End #page -->
+      <script type="text/javascript">
+         // Strip_Tags http://phpjs.org/functions/strip_tags:535
+         function strip_tags(input, allowed) { 
+         
+             allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+             var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+                 commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+             return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+                 return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+             });
+         }
+         
+         //Send ID and Search onclick
+         function send(x) {
+             mydata = x;
+         	//$("#rssfeed .toolbar H1").empty();
+         }
+         
+         function sget(v) {
+             s = v;
+         	$("#postcat").empty();
+         }
+         
+         //ajax loading animation
+         function showLoading() {
+           //$("div.container").show();
+         	$("#loading").show(); // If image gif
+         }
+         
+         function hideLoading() {
+            //$("div.container").hide();
+         	$("#loading").hide();  // If image gif
+         }
+         
+         //Hack, ajax jsonp search
+         $("#submit").tap(function(e) { // onclick event to the submit button - .tap or .click.
+             var s = $("#searchid").val(); // get the user-entered search term
+         	sget(s)
+         	//alert(s);
+         	});
+         
+         function buildiscroll() {
+             if (myScroll) {
+                 myScroll.destroy();
+                 myScroll = null;
+                 //alert('destroy iscroll')
+             }
+         
+             if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                 setTimeout(function() {
+                     myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                     //alert('New iscroll');
+                 }, 0);
+             }
+         }
+         
+         // Copy RSS Feed item
+         function goto_item(number){
+         var t = document.getElementById(number).innerHTML; //done with javascript, doesn't work with jquery code with Zepto
+         document.getElementById('singleappend').innerHTML=t;
+         }
+      </script>
+      <script type="text/javascript" src="src/itabbar.js"></script> 
+      <script type="text/javascript" src="src/fullscreen.js"></script>  
+   </body>
+</html>

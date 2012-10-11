@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+
+<link rel="apple-touch-icon" href="http://www.itabbar.com/itabbar/img/logo72X72_flat.png"/>
+<link rel="apple-touch-icon-precomposed" media="screen and (min-resolution: 326dpi)" href="http://www.itabbar.com/itabbar/img/logo72X72_flat.png" />
+<link rel="apple-touch-icon-precomposed" href="http://www.itabbar.com/itabbar/img/logo72X72_flat.png"/>
+<title> iTabbar Demo</title>
+
+<style type="text/css">  
+
+</style>
+
+<!--<link rel="stylesheet" href="http://scripts.toolurl.com/mobile/1-tabbbar/themes/css/jqtouch.css"/> -->
+<link rel="stylesheet" href="src/apple.css"/>
+<link rel="stylesheet" href="src/itabbar.css"/><!--CSS order are important -->
+<link rel="stylesheet" href="src/style.css"/>
+
+<script type="text/javascript" src="src/iscroll.js"></script>
+<script type='text/javascript' src='src/zepto.min.js'></script> 
+<script type='text/javascript' src='src/jqtouch.min.js'></script>  
+
+<script type='text/javascript' src='src/jqt.autotitles.min.js'></script>  
+<script type='text/javascript' src='src/yql.js'></script>  
+<script type='text/javascript' src='src/twitter.js'></script>  
+
+<link rel="stylesheet" href="src/add2home.css">
+<script type="text/javascript" src="src/add2home.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+var myScroll;
+function loaded() {
+	setTimeout(function () {
+		myScroll = new iScroll('wrapper');
+	}, 100);
+}
+//window.addEventListener('load', loaded, false);
+
+/* Use this for high compatibility (iDevice + Android)*/
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', setTimeout(function () { loaded(); }, 200), false);
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	var jQT = new $.jQTouch({
+   		//cacheGetRequests: false,
+    	icon: 'img/iTab-glossy.png',
+    	icon4: 'img/iTab-glossy.png',
+    	addGlossToIcon: false,
+    	startupScreen: 'img/istartup.png',
+    	themeSelectionSelector: '#jqt #themes ul',
+		useFastTouch: true,
+    	statusBar: 'default',
+    	preloadImages: [
+		'img/loading.gif',
+		'img/iTab-glossy.png',
+		'img/pinstripes2.gif',
+		'img/UIBack.png',
+		'img/UIBackPressed.png',
+		]
+	});
+
+var mydata = '';
+
+// Main functions:
+$(function() {
+
+$('#twitterlist').bind('pageAnimationEnd', function(e, info) {
+if (info.direction == 'in'){
+var mydata = '';
+$("#tweetappend").empty(); // Clear old result for new result
+$("#tweet .toolbar H1").empty(); // Empty H1 header for autotitle
+
+    if (myScroll) {
+        myScroll.destroy();
+        myScroll = null;
+        //alert('destroy iscroll')
+    }
+
+    if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+        setTimeout(function() {
+            myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+            //alert('New iscroll');
+        }, 0);
+    }	
+
+}
+}); //pageAnimationEnd
+
+
+// Tweet
+$('#tweet').bind('pageAnimationEnd', function(e, info) {
+
+    if (info.direction == 'in') {
+        
+		showLoading();
+		
+        $.getJSON('https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=' + mydata + '&count=10&callback=?', function(data) {
+		
+		    if (myScroll) {
+            myScroll.destroy();
+            myScroll = null;
+            //alert('destroy iscroll')
+        }
+
+        if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+            setTimeout(function() {
+                myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                //alert('New iscroll');
+            }, 0);
+        }
+
+            content = '<ul class="rounded">';
+
+            $.each(data, function(i) {
+                var tweet = ify.clean(this['text']);
+                var d = new Date(this['created_at']);
+                var date_show = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+                content += '<li><img src="' + this.user.profile_image_url + '" style="float:left;" width="48" height="48"/><p>' + tweet + '</p> (<date>' + date_show + '</date>)</li>';
+            }); //each
+            content += '</ul>';
+            $('#tweetappend').html(content);
+
+		//alert ('data empty');
+        hideLoading();
+			
+        }); // getjson
+
+    } //direction in end
+}); //pageAnimationEnd
+
+
+// Twitter search
+$('#tweetsearch').bind('pageAnimationEnd', function(e, info) {
+
+    if (info.direction == 'in') {
+
+        showLoading();
+		
+        $.getJSON('http://search.twitter.com/search.json?callback=?&rpp=20&q=' + mydata + '', function(data) {
+
+            //Destroy and rebuild iSroll everytime you load something ajax
+			if (myScroll) {
+                myScroll.destroy();
+                myScroll = null;
+            }
+
+            if ($('div#' + e.target.id + ' #wrapper').get(0)) {
+                setTimeout(function() {
+                    myScroll = new iScroll($('div#' + e.target.id + ' #wrapper').get(0));
+                }, 0);
+            }
+
+            content = '<ul class="rounded">' + mydata + '';
+
+            $.each(data.results, function(i, item) {
+                // $.each(data, function(i) {
+                content += '<li><img class="profilepic" src="' + item.profile_image_url + '" style="float:left;" width="48" height="48"/><p>' + item.text + '</p></li>';
+            }); //each
+            content += '</ul>';
+            $('#twsearchresult').append(content);
+            hideLoading();
+
+        }); // getjson
+    } //direction in end
+}); //pageAnimationEnd​
+
+// search page // We add it to clear old result in the content and H1 toolbar
+$('#search').bind('pageAnimationEnd', function(e, info) {
+if (info.direction == 'in'){
+var s = ''; // clear last search result
+$("#twsearchresult").empty();
+$("#tweetsearch .toolbar H1").empty(); // Empty H1 header for autotitle
+ 
+}
+}); //pageAnimationEnd
+
+}); //end all function()
+</script>
+
+</head>
+
+<body>
+<div id="page">
+<div id="jqt">
+
+<!-- #home-->
+
+<!-- End #home -->
+ 
+<!-- #twitterlist -->
+	<div id="twitterlist" class="current">
+		<div class="toolbar">
+			<h1>Twitter users list</h1>
+		</div>
+		<div id="wrapper">
+			<div id="scroller">            
+			<ul class="edgetoedge">
+            <li class="list arrow"><a onClick="send('itabbar')" id="" href="#tweet" class="">@iTabbar</a></li>
+            <li class="list arrow"><a onClick="send('jqtouch')" id="" href="#tweet" class="">@jQtouch</a></li>
+            <li class="list arrow"><a onClick="send('iScroll')" id="" href="#tweet" class="">@iScroll</a></li>
+            <li class="list arrow"><a onClick="send('techcrunch')" id="" href="#tweet" class="">@Techcrunch</a></li>
+            <li class="list arrow"><a onClick="send('appsmobiledev')" id="" href="#tweet" class="">@appsmobiledev</a></li>
+            <li class="list arrow"><a onClick="send('ginocote')" id="" href="#tweet" class="">@Gino</a></li>
+            <li class="list arrow"><a onClick="send('pascalcarmoni')" id="" href="#tweet" class="">@pascalcarmoni</a></li>
+            <li class="list arrow"><a onClick="send('templateswise')" id="" href="#tweet" class="">@templateswise</a></li>
+            <li class="list arrow"><a onClick="send('FousduRoi')" id="" href="#tweet" class="">Les Fous du Roi</a></li>
+            </ul>
+			</div>
+		</div>
+  </div>
+<!-- End #twitterlist -->
+
+<!-- #tweet -->
+	<div id="tweet">
+		<div class="toolbar">
+			<h1>Techcrunch</h1>
+            <a class="back" href="#">Back</a></div>
+		<div id="wrapper">
+			<div id="scroller">
+			<div id="tweetappend"></div>
+			</div>
+		</div>
+  </div>
+<!-- End #tweet -->
+
+
+<!-- #tweet search result -->
+	<div id="tweetsearch">
+		<div class="toolbar">
+			<h1></h1>
+            <a class="back" href="#">Back</a></div>
+		<div id="wrapper">
+			<div id="scroller">
+			<div id="twsearchresult"></div>
+			</div>
+		</div>
+  </div>
+<!-- End #tweet search result -->
+  
+<!-- #search -->
+   <form id="search"  class="form">
+		<div class="toolbar">
+			<h1>Search</h1>
+			 <a class="cancel" href="#">Cancel</a>
+        </div>
+		<div class="scroll">
+                    <ul class="rounded">
+                        <li><input type="search" id="searchid" name="s" value="" placeholder="Search" /></li>
+                    </ul>
+                    <a style="margin-top: 10px; margin-bottom: 10px; color:rgba(0,0,0,.9)" href="#tweetsearch" id="submit" class="whiteButton">Search Twitter</a>
+                </div>
+    </form>
+<!-- End #search -->
+    
+    
+    <!-- #about -->
+    <div id="about" class="selectable">
+		<p><img src="http://www.itabbar.com/wp-content/themes/boldy/itabbar/img/iTab-glossy.png" /></p>
+		<p><strong>iTabbar</strong><br>Version 0.1 beta<br>
+			<a href="http://www.itabbar.com">By Gino Côté</a></p>
+		<p><em>Create powerful mobile apps with<br> just iTabbar, HTML, CSS, and jQuery.</em></p>
+		<p>
+			<a target="_blank" href="http://twitter.com/itabbar">@iTabbar on Twitter</a>		</p>
+		<p><br><br><a href="#" class="grayButton goback">Close</a></p>
+	</div>
+    <!-- End #about -->
+
+</div> <!-- End #jqt -->
+<div id="loading"><p><img src="img/loading.gif" /></p></div>
+<nav id="tabbar">
+    <ul >
+     <!-- Action & navigation -->
+<li><a href="#twitterlist" class="current flip"><strong>Home</strong><div class="home"></div></a></li>    
+<li><a href="#twitterlist" class="flip"><strong>Twitter</strong><div class="twitter"></div></a></li>
+<li><a href="#search" class="flip"><strong>Search</strong><div class="search2"></div></a></li>
+    </ul>
+</nav>
+</div> <!-- End #page -->
+
+
+<script type="text/javascript">
+
+//Send ID and Search onclick
+function send(d) {
+    mydata = d;
+	//alert(s)
+	//$("#rssfeed .toolbar H1").empty();
+}
+
+$("#submit").tap(function(e) { // onclick event to the submit button - .tap or .click.
+    var s = $("#searchid").val(); // get the user-entered search term
+	$("#tweetsearch .toolbar H1").append(s);// Add search query to Toolbar
+	send(s)
+	//alert(s);
+});
+
+//ajax loading animation
+function showLoading() {
+  //$("div.container").show();
+	$("#loading").show(); // If image gif
+}
+
+function hideLoading() {
+   //$("div.container").hide();
+	$("#loading").hide();  // If image gif
+}
+
+</script>
+
+<script type='text/javascript' src='src/itabbar.js'></script> 
+<script type='text/javascript' src='src/fullscreen.js'></script>  
+
+</body>
+</html>
